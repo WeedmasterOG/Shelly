@@ -34,7 +34,7 @@ namespace Shelly_Server
         // Connect method
         public static void Connect()
         {
-            // Create new sslstream instace, validate the certificate
+            // Create new sslstream instace and validate certificate
             sslStream = new SslStream(client.GetStream(), false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
 
             // Create new certificate instance

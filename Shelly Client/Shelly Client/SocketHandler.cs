@@ -8,51 +8,66 @@ namespace Shelly_Client
 {
     class SocketHandler
     {
-        public static byte[] Buffer;
+        private static byte[] Buffer;
+        private static TcpClient client;
+        private static SslStream sslStream;
 
-        public static TcpClient client;
-
-        public static SslStream sslStream;
-
+        // Connect method
         public static void Connect()
         {
+            // Create new instance
             client = new TcpClient(Program.ServerIp, Program.ServerPort);
+
+            // Create new sslstream instace and validate certificate
             sslStream = new SslStream(client.GetStream(), false, new RemoteCertificateValidationCallback(ValidateServerCertificate), null);
+
+            // Authenticate as client
             sslStream.AuthenticateAsClient(Program.ServerIp);
+
+            // Set receive timeout
             sslStream.ReadTimeout = 10000;
         }
 
+        // ValidateServerCertificate method
         public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
             return true;
         }
 
+        // Disconnect method
         public static void Disconnect()
         {
+            // Close socket
             client.Close();
         }
 
+        // Send method
         public static void Send(string Message)
         {
+            // Write to the stream
             sslStream.Write(Encoding.ASCII.GetBytes(" " + Message), 0, Message.Length + 1);
         }
 
+        // Receive method
         private static string TrimSpace;
         public static string Receive()
         {
-            //---read back the text---
+            // Setup buffer
             Buffer = new byte[client.ReceiveBufferSize];
 
-            for(int i = 0; i < 2; i++)
+            // Read incoming data and strip front space
+            for (int i = 0; i < 2; i++)
             {
                 TrimSpace = Encoding.ASCII.GetString(Buffer, 0, sslStream.Read(Buffer, 0, Buffer.Length));
             }
 
+            // Check for graceful disconnect
             if (TrimSpace.Length == 0)
             {
                 Disconnect();
             }
 
+            // Return data received
             return TrimSpace;
         }
     }
