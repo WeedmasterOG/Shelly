@@ -39,7 +39,7 @@ namespace Shelly_Client
                         
                         // Send ping to server
                         case "ping":
-                            SocketHandler.Send(Functions.ping());
+                            SocketHandler.Send(Functions.Ping());
                             break;
                     }
                 } catch

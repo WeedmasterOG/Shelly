@@ -1,24 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
-using System.Runtime.InteropServices;
 using System.Net.NetworkInformation;
 
 namespace Shelly_Client
 {
     class Functions
     {
-        public static string ping()
+        // Ping method
+        public static string Ping()
         {
+            // Create new instance
             using (Ping SendPing = new Ping())
             {
+                // Return ms response
                 return SendPing.Send(Program.ServerIp).RoundtripTime.ToString() + "ms";
             }
         }
 
+        // GetClientInfo method
         public static void GetClientInfo()
         {
 
