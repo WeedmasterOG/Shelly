@@ -56,9 +56,6 @@ namespace Shelly_Server
         // Disconnect method
         public static void Disconnect()
         {
-            // Stop the disconnectionHandler thread
-            Program.disconnectionHandler.Abort();
-
             // Close socket
             client.Close();
         }
@@ -94,7 +91,6 @@ namespace Shelly_Server
             try
             {
                 Send(".");
-
                 // Return true if operation succeeded
                 return true;
             }

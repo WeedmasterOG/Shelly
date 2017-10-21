@@ -44,21 +44,8 @@ namespace Shelly_Server
             TryAgain:
             Console.WriteLine("SSL certificate file path");
 
-            try
-            {
-                // Get SSL cert file path
-                SocketHandler.CertPath = Console.ReadLine();
-                Console.Clear();
-
-                // Get SSL cert file pass
-                Console.WriteLine("SSL certificate file password");
-                SocketHandler.CertPass = Console.ReadLine();
-            } catch
-            {
-                // Show error message
-                ShowErrorMessage("ERROR: Could not find SSL certificate file", 2000);
-                goto TryAgain;
-            }
+            // Get SSL cert file path
+            SocketHandler.CertPath = Console.ReadLine();
 
             // Check if cert file exists
             if (!File.Exists(SocketHandler.CertPath))
@@ -72,13 +59,18 @@ namespace Shelly_Server
                 if (Path.GetExtension(SocketHandler.CertPath) == ".pfx")
                 {
 
-                } else
+                }
+                else
                 {
                     // Show error message
                     ShowErrorMessage("ERROR: File is not an SSL certificate", 2000);
                     goto TryAgain;
                 }
             }
+
+            // Get SSL cert file pass
+            Console.WriteLine("SSL certificate file password");
+            SocketHandler.CertPass = Console.ReadLine();
 
             // Display message
             Console.Clear();
@@ -91,13 +83,13 @@ namespace Shelly_Server
             // Accept incoming connection, authenticate.. etc
             SocketHandler.Connect();
 
+            // Start the disconnection handler thread
+            disconnectionHandler.Start();
+
             // Display message
             Console.WriteLine("Client connected!");
             Thread.Sleep(2000);
             Console.Clear();
-
-            // Start the disconnection handler thread
-            disconnectionHandler.Start();
 
             // UserInput string
             string UserInput;
@@ -134,6 +126,8 @@ namespace Shelly_Server
 
                         // Exit
                         case "exit":
+                            // Stop the disconnectionHandler thread
+                            disconnectionHandler.Abort();
 
                             // Disconnect
                             SocketHandler.Disconnect();
@@ -147,6 +141,9 @@ namespace Shelly_Server
 
                             // Send message
                             SocketHandler.Send("uninstall");
+
+                            // Stop the disconnectionHandler thread
+                            disconnectionHandler.Abort();
 
                             // Disconnect
                             SocketHandler.Disconnect();
@@ -166,6 +163,9 @@ namespace Shelly_Server
                     }
                 } catch
                 {
+                    // Stop the disconnectionHandler thread
+                    disconnectionHandler.Abort();
+
                     // Disconnect
                     SocketHandler.Disconnect();
 
@@ -184,7 +184,7 @@ namespace Shelly_Server
                 // Check if connection is alive
                 if (SocketHandler.ConnectionStatus() == false)
                 {
-                    // 
+                    // Disconnect
                     SocketHandler.Disconnect();
 
                     // Display message, NOTE: im not using the ShowDisconnectMessage method here as it messes with the main thread
