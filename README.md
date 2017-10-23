@@ -3,7 +3,7 @@ Simple reverse shell
 
 Features:
 
-- SERVER COMMANDS
+SERVER COMMANDS
 - Help - Displays this help section
 - Clear - Clears the console
 - Exit - Exits
