@@ -7,7 +7,7 @@
     <ProjectGuid>{E8513989-98CF-445C-A8E1-4F9E64D66B9E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Shelly_Client</RootNamespace>
-    <AssemblyName>Shelly Client</AssemblyName>
+    <AssemblyName>Shelly</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Functions.cs" />
+    <Compile Include="InstallFunctions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketHandler.cs" />
