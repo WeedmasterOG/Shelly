@@ -91,7 +91,6 @@ namespace Shelly_Server
             Thread.Sleep(2000);
             Console.Clear();
 
-            // UserInput string
             string UserInput;
 
             // Infinite loop
@@ -105,152 +104,43 @@ namespace Shelly_Server
                 // Try to read data
                 try
                 {
-                    // Turn to lower case and handle it
-                    switch (UserInput.ToLower())
-                    {
-                        // Shows help section
-                        case "help":
-                            Console.WriteLine(
-                                "SERVER COMMANDS\n" +
-                                "1. Help - Displays this help section\n" + // None client
-                                "2. Clear - Clears the console\n" + // None client
-                                "3. Exit - Exits\n\n" +
-
-                                "GENERAL\n" +
-
-                                "1. Uninstall - Uninstalls Shelly from the client computer\n" +
-                                "2. Disconnect - Shuts down the shell until next system startup\n" +
-                                "3. Ping - Pings the client and shows the response\n\n" +
-
-                                "POWER OPTIONS\n" +
-
-                                "1. Shutdown\n" +
-                                "2. Restart\n" +
-                                "3. hibernate"
-                            );
-                            break;
-
-                        // Clears the console
-                        case "clear":
-                            Console.Clear();
-                            break;
-
-                        // Exit
-                        case "exit":
-
-                            // Disconnect and exit
-                            ShutdownServer();
-                            break;
-
-                        // Uninstall shell
-                        case "uninstall":
-
-                            // Send message
-                            SocketHandler.Send("uninstall");
-
-                            // Disconnect and exit
-                            ShutdownServer();
-                            break;
-
-                        // Uninstall shell
-                        case "disconnect":
-
-                            // Send message
-                            SocketHandler.Send("disconnect");
-
-                            // Disconnect and exit
-                            ShutdownServer();
-                            break;
-
-
-                        // Request Ping from client
-                        case "ping":
-
-                            // Send message
-                            SocketHandler.Send("ping");
-
-                            // Receive response
-                            Console.WriteLine(SocketHandler.Receive());
-                            break;
-
-                        // Request Ping from client
-                        case "shutdown":
-
-                            // Send message
-                            SocketHandler.Send("shutdown");
-
-                            // Disconnect and exit
-                            ShutdownServer();
-                            break;
-
-                        // Request Ping from client
-                        case "restart":
-
-                            // Send message
-                            SocketHandler.Send("restart");
-
-                            // Disconnect and exit
-                            ShutdownServer();
-                            break;
-
-                        // Request Ping from client
-                        case "hibernate":
-
-                            // Send message
-                            SocketHandler.Send("hibernate");
-                            break;
-                    }
+                    InputOutput.IO(UserInput);
                 } catch
                 {
-                    ShutdownServer();
-
-                    // Exit
-                    Environment.Exit(0);
+                    // Shutdown server and disconnect
+                    SocketHandler.ShutdownServer();
                 }
             }
         }
 
         // DisconnectionHandler thread
+        public static bool CheckConnection = true;
         public static void DisconnectionHandler()
         {
             // Infinite loop
             while(true)
             {
-                // Check if connection is alive
-                if (SocketHandler.ConnectionStatus() == false)
+                if (CheckConnection == true)
                 {
-                    // Disconnect
-                    SocketHandler.Disconnect();
+                    // Check if connection is alive
+                    if (SocketHandler.ConnectionStatus() == false)
+                    {
+                        // Disconnect
+                        SocketHandler.Disconnect();
 
-                    // Display message, NOTE: im not using the ShowDisconnectMessage method here as it messes with the main thread
-                    Console.Clear();
-                    Console.WriteLine("Client disconnected");
-                    Thread.Sleep(2500);
+                        // Display message, NOTE: im not using the ShowDisconnectMessage method here as it messes with the main thread
+                        Console.Clear();
+                        Console.WriteLine("Client disconnected");
+                        Thread.Sleep(2500);
 
-                    // Exit
-                    Environment.Exit(0);
+                        // Exit
+                        Environment.Exit(0);
+                    }
                 }
 
-                // Check every 5 seconds
-                Thread.Sleep(5000);
+                // Check every 3 seconds
+                Thread.Sleep(3000);
             }
-        }
-
-        public static void ShutdownServer()
-        {
-            // Stop the disconnectionHandler thread
-            disconnectionHandler.Abort();
-
-            // Disconnect
-            SocketHandler.Disconnect();
-
-            // Display message
-            Console.Clear();
-            Console.WriteLine("Client disconnected");
-            Thread.Sleep(2500);
-
-            // Exit
-            Environment.Exit(0);
         }
 
         // ShowErrorMessage method

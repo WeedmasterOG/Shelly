@@ -41,6 +41,16 @@ namespace Shelly_Client
             client.Close();
         }
 
+        // ShutdownClient method
+        public static void ShutdownClient()
+        {
+            // Disconnect
+            Disconnect();
+
+            // Exit
+            Environment.Exit(0);
+        }
+
         // Send method
         public static void Send(string Message)
         {

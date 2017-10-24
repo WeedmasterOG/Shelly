@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Text;
+using System.Threading;
 using System.Net.Sockets;
 using System.Net.Security;
 using System.Security.Authentication;
@@ -60,11 +61,35 @@ namespace Shelly_Server
             client.Close();
         }
 
+        // ShutdownServer method
+        public static void ShutdownServer()
+        {
+            // Stop the disconnectionHandler thread
+            Program.disconnectionHandler.Abort();
+
+            // Disconnect
+            Disconnect();
+
+            // Display message
+            Console.Clear();
+            Console.WriteLine("Client disconnected");
+            Thread.Sleep(2500);
+
+            // Exit
+            Environment.Exit(0);
+        }
+
         // Send method
         public static void Send(string Message)
         {
+            // Disable connection checking
+            Program.CheckConnection = false;
+
             // Write to the stream
             sslStream.Write(Encoding.ASCII.GetBytes(" " + Message), 0, Message.Length + 1);
+
+            // Enable connection checking
+            Program.CheckConnection = true;
         }
 
         // Receive method
@@ -90,7 +115,9 @@ namespace Shelly_Server
             // Try to send data to client
             try
             {
-                Send(".");
+                // Write to the stream, send message manually ot avoid cross thread errors
+                sslStream.Write(Encoding.ASCII.GetBytes(" " + "."), 0, ".".Length + 1);
+
                 // Return true if operation succeeded
                 return true;
             }
