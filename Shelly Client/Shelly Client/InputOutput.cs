@@ -16,7 +16,7 @@ namespace Shelly_Client
                     SocketHandler.Disconnect();
 
                     // Uninstall
-                    InstallFunctions.Uninstall();
+                    Functions.InstallMethods.Uninstall();
 
                     // Exit
                     Environment.Exit(0);

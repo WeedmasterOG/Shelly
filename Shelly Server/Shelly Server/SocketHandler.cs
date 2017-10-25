@@ -59,6 +59,9 @@ namespace Shelly_Server
         {
             // Close socket
             client.Close();
+
+            // Set console title
+            Console.Title = "Disconnected";
         }
 
         // ShutdownServer method
@@ -77,6 +80,27 @@ namespace Shelly_Server
 
             // Exit
             Environment.Exit(0);
+        }
+
+        // GetClientIp method
+        public static string GetClientIp()
+        {
+            // Get client ip
+            IPEndPoint ClientIp = client.Client.RemoteEndPoint as IPEndPoint;
+
+            // Set variables
+            string input = ClientIp.ToString();
+            int index = input.IndexOf(":");
+
+            // Check if index is greater than 0
+            if (index > 0)
+            {
+                // Trim string
+                input = input.Substring(0, index);
+            }
+
+            // Return client ip
+            return input;
         }
 
         // Send method

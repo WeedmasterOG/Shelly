@@ -86,6 +86,9 @@ namespace Shelly_Server
             // Start the disconnection handler thread
             disconnectionHandler.Start();
 
+            // Set console title
+            Console.Title = "Connected to " + SocketHandler.GetClientIp();
+
             // Display message
             Console.WriteLine("Client connected!");
             Thread.Sleep(2000);

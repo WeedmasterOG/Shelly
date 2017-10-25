@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Threading;
+using System.Reflection;
 
 namespace Shelly_Client
 {
@@ -22,7 +22,7 @@ namespace Shelly_Client
             if (ExecutionPath == Environment.SystemDirectory)
             {
                 // Add startup key
-                InstallFunctions.StartupKey("Add");
+                Functions.InstallMethods.StartupKey("Add");
 
                 // Change path
                 Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
@@ -69,7 +69,7 @@ namespace Shelly_Client
             } else
             {
                 // Install
-                InstallFunctions.Install();
+                Functions.InstallMethods.Install();
 
                 // Exit
                 Environment.Exit(0);
