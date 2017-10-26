@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Net;
 using System.Threading;
 
@@ -36,41 +35,14 @@ namespace Shelly_Server
             catch
             {
                 // Show error message
-                ShowErrorMessage("ERROR: This program requires an active network connection to work", 5000);
+                Functions.ShowErrorMessage("ERROR: This program requires an active network connection to work", 5000);
                 goto NetworkTryAgain;
             }
 
-            // Get SSL cert file path
-            TryAgain:
-            Console.WriteLine("SSL certificate file path");
+            // Get SSL input
+            Functions.UserInput.GetSSLInput();
 
-            // Get SSL cert file path
-            SocketHandler.CertPath = Console.ReadLine();
 
-            // Check if cert file exists
-            if (!File.Exists(SocketHandler.CertPath))
-            {
-                // Show error message
-                ShowErrorMessage("ERROR: Could not find SSL certificate file", 2000);
-                goto TryAgain;
-            } else
-            {
-                // Check if file is an actual cert file
-                if (Path.GetExtension(SocketHandler.CertPath) == ".pfx")
-                {
-
-                }
-                else
-                {
-                    // Show error message
-                    ShowErrorMessage("ERROR: File is not an SSL certificate", 2000);
-                    goto TryAgain;
-                }
-            }
-
-            // Get SSL cert file pass
-            Console.WriteLine("SSL certificate file password");
-            SocketHandler.CertPass = Console.ReadLine();
 
             // Display message
             Console.Clear();
@@ -117,42 +89,29 @@ namespace Shelly_Server
         }
 
         // DisconnectionHandler thread
-        public static bool CheckConnection = true;
         public static void DisconnectionHandler()
         {
             // Infinite loop
             while(true)
             {
-                if (CheckConnection == true)
+                // Check if connection is alive
+                if (SocketHandler.ConnectionStatus() == "false")
                 {
-                    // Check if connection is alive
-                    if (SocketHandler.ConnectionStatus() == false)
-                    {
-                        // Disconnect
-                        SocketHandler.Disconnect();
+                    // Disconnect
+                    SocketHandler.Disconnect();
 
-                        // Display message, NOTE: im not using the ShowDisconnectMessage method here as it messes with the main thread
-                        Console.Clear();
-                        Console.WriteLine("Client disconnected");
-                        Thread.Sleep(2500);
+                    // Display message, NOTE: im not using the ShowDisconnectMessage method here as it messes with the main thread
+                    Console.Clear();
+                    Console.WriteLine("Client disconnected");
+                    Thread.Sleep(2500);
 
-                        // Exit
-                        Environment.Exit(0);
-                    }
+                    // Exit
+                    Environment.Exit(0);
                 }
 
                 // Check every 3 seconds
                 Thread.Sleep(3000);
             }
-        }
-
-        // ShowErrorMessage method
-        public static void ShowErrorMessage(string Message, int Delay)
-        {
-            // Display message
-            Console.WriteLine(Message);
-            Thread.Sleep(Delay);
-            Console.Clear();
         }
     }
 }

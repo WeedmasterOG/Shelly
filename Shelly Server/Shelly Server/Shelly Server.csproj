@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Functions.cs" />
     <Compile Include="InputOutput.cs" />
     <Compile Include="SocketHandler.cs" />
     <Compile Include="Program.cs" />

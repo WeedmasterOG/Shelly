@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
 using Microsoft.Win32;
+using System.Threading;
 using System.Diagnostics;
+using System.Windows.Forms;
 using System.Net.NetworkInformation;
 
 namespace Shelly_Client
@@ -20,6 +22,20 @@ namespace Shelly_Client
                     // Return ms response
                     return SendPing.Send(Program.ServerIp).RoundtripTime.ToString() + "ms";
                 }
+            }
+
+            // MsgBox method
+            public static void MsgBox(string Message)
+            {
+                // Make and start thread
+                new Thread(() =>
+                {
+                    // Set thread to background
+                    Thread.CurrentThread.IsBackground = true;
+
+                    // Display messagebox
+                    MessageBox.Show(Message);
+                }).Start();
             }
         }
 

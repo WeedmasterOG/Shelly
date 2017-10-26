@@ -3,6 +3,8 @@ using System.Text;
 using System.Net.Sockets;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using System.IO;
+using System.Linq;
 
 namespace Shelly_Client
 {
@@ -25,7 +27,7 @@ namespace Shelly_Client
             sslStream.AuthenticateAsClient(Program.ServerIp);
 
             // Set receive timeout
-            sslStream.ReadTimeout = 10000;
+            sslStream.ReadTimeout = 12000;
         }
 
         // ValidateServerCertificate method

