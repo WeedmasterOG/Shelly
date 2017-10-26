@@ -12,6 +12,7 @@ GENERAL
 - Uninstall - Uninstalls Shelly from the client computer
 - Disconnect - Shuts down the shell until next system startup
 - Ping - Pings the client and shows the response
+- MessageBox - Shows a messagebox on the clients computer
 
 POWER OPTIONS
 - Shutdown
