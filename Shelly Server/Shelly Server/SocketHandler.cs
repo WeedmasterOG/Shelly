@@ -112,6 +112,9 @@ namespace Shelly_Server
             // Write to the stream
             sslStream.Write(Encoding.ASCII.GetBytes(" " + Message), 0, Message.Length + 1);
 
+            // Sleep for a short period of time to make sure the client receives the data
+            Thread.Sleep(100);
+
             // Enable connection checking
             CheckConnection = true;
         }

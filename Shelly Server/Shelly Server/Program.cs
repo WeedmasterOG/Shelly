@@ -42,8 +42,6 @@ namespace Shelly_Server
             // Get SSL input
             Functions.UserInput.GetSSLInput();
 
-
-
             // Display message
             Console.Clear();
             Console.WriteLine("Listening...");

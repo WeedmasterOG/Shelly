@@ -6,6 +6,7 @@ namespace Shelly_Server
 {
     class Functions
     {
+        // UserInput class
         public static class UserInput
         {
             public static void GetSSLInput()
@@ -53,6 +54,29 @@ namespace Shelly_Server
 
                 // Return user input
                 return Console.ReadLine();
+            }
+
+            // GetDNEInput method
+            public static string GetDNEInput()
+            {
+                TryAgain:
+
+                // Display text
+                Console.Write("Download Link(direct): ");
+
+                // Get user input
+                string Url = Console.ReadLine();
+
+                // Check if URL is valid
+                if (Uri.TryCreate(Url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps) == false)
+                {
+                    // Display text
+                    Console.WriteLine("ERROR: The URL you entered isnt valid\n");
+                    goto TryAgain;
+                }
+
+                // Return user input
+                return Url;
             }
         }
 
