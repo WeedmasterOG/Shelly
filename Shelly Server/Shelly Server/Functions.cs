@@ -77,6 +77,13 @@ namespace Shelly_Server
                         // Display text
                         Console.Write("Image download Link(direct, png & jpg only): ");
                         break;
+
+                    // For OpenWebsite
+                    case 3:
+
+                        // Display text
+                        Console.Write("Website Link: ");
+                        break;
                 }
 
                 // Get user input
@@ -86,7 +93,7 @@ namespace Shelly_Server
                 if (Uri.IsWellFormedUriString(Url, UriKind.RelativeOrAbsolute) == false)
                 {
                     // Display text
-                    Console.WriteLine("ERROR: The URL you entered isnt valid\n");
+                    Console.WriteLine("ERROR: The URL you provided isnt valid\n");
                     goto TryAgain;
                 }
 

