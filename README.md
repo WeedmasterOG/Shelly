@@ -15,6 +15,9 @@ GENERAL
 - MessageBox - Shows a messagebox on the clients computer
 - DownloadAndExecute - Downloads and executes a file
 
+FUN
+- ChangeWallpaper - Changes client desktop wallpaper
+
 POWER OPTIONS
 - Shutdown
 - Restart
