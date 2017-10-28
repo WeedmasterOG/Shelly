@@ -57,18 +57,33 @@ namespace Shelly_Server
             }
 
             // GetDNEInput method
-            public static string GetDNEInput()
+            public static string GetLinkInput(int Options)
             {
                 TryAgain:
 
-                // Display text
-                Console.Write("Download Link(direct): ");
+                // Switch
+                switch(Options)
+                {
+                    // For DownloadAndExecute
+                    case 1:
+
+                        // Display text
+                        Console.Write("Download Link(direct): ");
+                        break;
+
+                    // For ChangeWallpaper
+                    case 2:
+
+                        // Display text
+                        Console.Write("Image download Link(direct, png & jpg only): ");
+                        break;
+                }
 
                 // Get user input
                 string Url = Console.ReadLine();
 
                 // Check if URL is valid
-                if (Uri.TryCreate(Url, UriKind.Absolute, out Uri uriResult) && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps) == false)
+                if (Uri.IsWellFormedUriString(Url, UriKind.RelativeOrAbsolute) == false)
                 {
                     // Display text
                     Console.WriteLine("ERROR: The URL you entered isnt valid\n");

