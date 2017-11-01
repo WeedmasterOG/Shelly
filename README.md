@@ -15,6 +15,7 @@ GENERAL
 - MessageBox - Shows a messagebox on the clients computer
 - DownloadAndExecute - Downloads and executes a file
 - OpenWebsite - Opens a website using the IE browser
+- Info - Shows client system information
 
 FUN
 - ChangeWallpaper - Changes client desktop wallpaper
