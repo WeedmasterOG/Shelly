@@ -45,7 +45,7 @@ namespace Shelly_Server
             sslStream.AuthenticateAsServer(cert, false, SslProtocols.Tls, true);
 
             // Set receive timeout
-            sslStream.ReadTimeout = 10000;
+            sslStream.ReadTimeout = 12000;
         }
 
         // ValidateServerCertificate method

