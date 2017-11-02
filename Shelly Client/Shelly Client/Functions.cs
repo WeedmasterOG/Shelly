@@ -5,12 +5,12 @@ using System.Linq;
 using System.Drawing;
 using Microsoft.Win32;
 using System.Threading;
+using System.Management;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
-using System.Management;
 
 namespace Shelly_Client
 {
@@ -269,6 +269,37 @@ namespace Shelly_Client
                         }
                     }).Start();
                 }
+            }
+
+            // Lock method
+            public static void Lock(int Seconds)
+            {
+                // Make and start thread
+                new Thread(() =>
+                {
+                    // Set thread to background
+                    Thread.CurrentThread.IsBackground = true;
+
+                    // Try to lock
+                    try
+                    {
+                        // Create new instance
+                        using (Forms.Lock Lock = new Forms.Lock())
+                        {
+                            // Lock
+                            Lock.Show();
+
+                            // Sleep
+                            Thread.Sleep(TimeSpan.FromSeconds(Seconds));
+
+                            // Unlock
+                            Lock.Hide();
+                        }
+                    } catch
+                    {
+
+                    }
+                }).Start();
             }
         }
 

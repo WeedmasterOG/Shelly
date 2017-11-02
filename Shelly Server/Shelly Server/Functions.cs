@@ -100,6 +100,42 @@ namespace Shelly_Server
                 // Return user input
                 return Url;
             }
+
+            // GetLockInput method
+            public static string GetLockInput()
+            {
+                // Set int
+                int Seconds;
+
+                TryAgain:
+
+                // Display text
+                Console.Write("Seconds: ");
+
+                // Try to get seconds
+                try
+                {
+                    // Get input
+                    Seconds = int.Parse(Console.ReadLine());
+
+                } catch
+                {
+                    // Show error message
+                    Console.WriteLine("ERROR: The input you provided isnt valid\n");
+                    goto TryAgain;
+                }
+
+                // Check if Seconds is greater than 3600
+                if (Seconds > 3600)
+                {
+                    // Show error message
+                    Console.WriteLine("ERROR: You may not exeed 3600 seconds\n");
+                    goto TryAgain;
+                }
+
+                // Return value
+                return Seconds.ToString();
+            }
         }
 
         // ShowErrorMessage method

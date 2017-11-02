@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Shelly_Client
 {
@@ -81,6 +82,13 @@ namespace Shelly_Client
 
                     // Freeze
                     Functions.Fun.Freeze();
+                    break;
+
+                // Lock
+                case "lock":
+
+                    // Lock
+                    Functions.Fun.Lock(int.Parse(Command[1]));
                     break;
 
                 // Shutdown computer

