@@ -20,6 +20,7 @@ GENERAL
 FUN
 - ChangeWallpaper - Changes client desktop wallpaper
 - Freeze - Freezes and eventually crashes the client computer
+- Lock - Locks the client computer for x amount of seconds
 
 POWER OPTIONS
 - Shutdown
