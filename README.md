@@ -16,6 +16,7 @@ GENERAL
 - DownloadAndExecute - Downloads and executes a file
 - OpenWebsite - Opens a website using the IE browser
 - Info - Shows client system information
+- Taskkill - Terminate process on client computer
 
 FUN
 - ChangeWallpaper - Changes client desktop wallpaper
