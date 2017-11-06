@@ -16,8 +16,8 @@ namespace Shelly_Server
                 case "help":
                     Console.WriteLine(
                         "SERVER COMMANDS\n" +
-                        "1. Help - Displays this help section\n" + // None client
-                        "2. Clear - Clears the console\n" + // None client
+                        "1. Help - Displays this help section\n" +
+                        "2. Clear - Clears the console\n" +
                         "3. Exit - Exits\n\n" +
 
                         "GENERAL\n" +

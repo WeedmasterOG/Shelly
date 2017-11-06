@@ -38,7 +38,7 @@ namespace Shelly_Client
                 Task.Factory.StartNew(() =>
                 {
                     // Display messagebox
-                    MessageBox.Show(Message);
+                    MessageBox.Show(Message, " ", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1, MessageBoxOptions.DefaultDesktopOnly);
                 });
             }
 
